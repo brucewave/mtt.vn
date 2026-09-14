@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156 152" width="156" height="152">
+  <defs>
+    <linearGradient id="roof" x1="0" y1="0" x2="1" y2="0.55">
+      <stop offset="0%" stop-color="#ffa14a"/>
+      <stop offset="50%" stop-color="#f4551b"/>
+      <stop offset="100%" stop-color="#b82705"/>
+    </linearGradient>
+    <linearGradient id="m" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0%" stop-color="#ff8a35"/>
+      <stop offset="45%" stop-color="#ea430f"/>
+      <stop offset="100%" stop-color="#9c2405"/>
+    </linearGradient>
+  </defs>
+  <path d="M0 84 L78 4 L156 84 L124 84 L78 40 L32 84 Z" fill="url(#roof)"/>
+  <path d="M22 152 L22 96 L78 40 L134 96 L134 152 L94 152 L94 112 L78 94 L62 112 L62 152 Z" fill="url(#m)"/>
+</svg>
