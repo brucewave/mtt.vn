@@ -40,7 +40,9 @@ export default function PageHeading({
         <span className="h-px w-8 bg-flame-500" />
         {eyebrow}
       </p>
-      <h1 className="mt-4 max-w-3xl font-display text-[clamp(2.25rem,5vw,4rem)] leading-[1.03] font-medium tracking-tight text-ink-900">
+      {/* Balanced so an accent of two or three words does not leave a single
+          syllable stranded on its own line. */}
+      <h1 className="mt-4 max-w-3xl font-display text-[clamp(2.25rem,5vw,4rem)] leading-[1.03] font-medium tracking-tight text-balance text-ink-900">
         {title} {accent && <em className="not-italic text-flame-600">{accent}</em>}
       </h1>
       {lead && <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-steel-600">{lead}</p>}

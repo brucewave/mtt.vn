@@ -1,12 +1,22 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import Logo from './Logo'
 import { navLinks, showroom } from '@/lib/site-data'
 import { categories } from '@/lib/categories'
 import { useCart } from '@/lib/cart'
+
+/**
+ * Is this nav item the page we are on?
+ *
+ * A product or an article counts as being under its section, so the menu stays
+ * lit while a visitor reads down into the site.
+ */
+function isCurrent(pathname: string, href: string) {
+  return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`)
+}
 
 /** The category list the "Sản phẩm" dropdown hangs off, minus the "all" pill. */
 const productCategories = categories.filter((c) => c.id !== 'all')
@@ -17,6 +27,7 @@ export default function SiteHeader({
   /** `overlay` floats over the hero; `solid` is for the inner pages. */
   variant?: 'overlay' | 'solid'
 }) {
+  const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
@@ -92,12 +103,20 @@ export default function SiteHeader({
             <ul className="flex items-center gap-1">
               {navLinks.map((l) => {
                 const hasMenu = l.href === '/san-pham'
+                const current = isCurrent(pathname, l.href)
                 return (
                   <li key={l.href} className="group relative">
                     <Link
                       href={l.href}
+                      aria-current={current ? 'page' : undefined}
                       className={`relative flex items-center gap-1.5 px-4 py-2 text-[13px] tracking-wide transition-colors ${
-                        solid ? 'text-ink-700 hover:text-ink-900' : 'text-white/75 hover:text-white'
+                        current
+                          ? solid
+                            ? 'text-ink-900'
+                            : 'text-white'
+                          : solid
+                            ? 'text-ink-700 hover:text-ink-900'
+                            : 'text-white/75 hover:text-white'
                       }`}
                     >
                       {l.label}
@@ -115,7 +134,11 @@ export default function SiteHeader({
                           <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       )}
-                      <span className="absolute inset-x-4 bottom-1 h-px origin-left scale-x-0 bg-flame-500 transition-transform duration-300 group-hover:scale-x-100" />
+                      <span
+                        className={`absolute inset-x-4 bottom-1 h-px origin-left bg-flame-500 transition-transform duration-300 group-hover:scale-x-100 ${
+                          current ? 'scale-x-100' : 'scale-x-0'
+                        }`}
+                      />
                     </Link>
 
                     {/* Always painted on paper: a translucent panel over the hero
@@ -178,7 +201,7 @@ export default function SiteHeader({
             </Link>
 
             <Link
-              href="/#lien-he"
+              href="/lien-he"
               className="hidden rounded-full bg-flame-500 px-5 py-2.5 text-[13px] font-medium tracking-wide text-white transition-colors hover:bg-flame-600 md:block"
             >
               Đặt lịch tư vấn
@@ -315,7 +338,10 @@ export default function SiteHeader({
                 key={l.href}
                 href={l.href}
                 onClick={() => setMenuOpen(false)}
-                className="border-b border-ink-900/8 py-4 font-display text-2xl text-ink-900"
+                aria-current={isCurrent(pathname, l.href) ? 'page' : undefined}
+                className={`border-b border-ink-900/8 py-4 font-display text-2xl ${
+                  isCurrent(pathname, l.href) ? 'text-flame-600' : 'text-ink-900'
+                }`}
               >
                 <span className="mr-3 align-super text-xs text-flame-500">
                   {String(i + 1).padStart(2, '0')}

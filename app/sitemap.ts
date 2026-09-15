@@ -17,6 +17,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: brand.url, lastModified: now, changeFrequency: 'weekly', priority: 1 },
     { url: `${brand.url}/san-pham`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${brand.url}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${brand.url}/du-an`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${brand.url}/quy-trinh`, lastModified: now, changeFrequency: 'yearly', priority: 0.7 },
+    { url: `${brand.url}/gioi-thieu`, lastModified: now, changeFrequency: 'yearly', priority: 0.7 },
+    { url: `${brand.url}/lien-he`, lastModified: now, changeFrequency: 'yearly', priority: 0.8 },
     ...catalog.map((item) => ({
       url: `${brand.url}/san-pham/${item.slug}`,
       lastModified: now,

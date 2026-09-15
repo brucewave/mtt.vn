@@ -18,10 +18,10 @@ const productLinks = categories
   .map((c) => ({ label: c.label, href: `/san-pham?cat=${c.id}` }))
 
 const serviceLinks = [
-  { label: 'Thiết kế nội thất', href: '/#quy-trinh' },
-  { label: 'Thi công trọn gói', href: '/#quy-trinh' },
-  { label: 'Đóng đồ theo yêu cầu', href: '/#lien-he' },
-  { label: 'Dự án đã bàn giao', href: '/#du-an' },
+  { label: 'Thiết kế nội thất', href: '/quy-trinh' },
+  { label: 'Thi công trọn gói', href: '/quy-trinh' },
+  { label: 'Đóng đồ theo yêu cầu', href: '/lien-he' },
+  { label: 'Dự án đã bàn giao', href: '/du-an' },
   { label: 'Hàng độc bản', href: '/#doc-ban' },
 ]
 
@@ -29,7 +29,7 @@ const supportLinks = [
   { label: 'Blog kiến thức', href: '/blog' },
   ...policies.map((p) => ({ label: p.title, href: `/${p.slug}` })),
   { label: 'Giỏ hàng', href: '/gio-hang' },
-  { label: 'Liên hệ', href: '/#lien-he' },
+  { label: 'Liên hệ', href: '/lien-he' },
 ]
 
 function Column({ title, links }: { title: string; links: { label: string; href: string }[] }) {

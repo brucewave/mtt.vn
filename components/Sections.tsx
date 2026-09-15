@@ -68,7 +68,7 @@ function SectionHead({
       </div>
       {action && (
         <Reveal delay={200} className="shrink-0">
-          <a
+          <Link
             href={action.href}
             className="group inline-flex items-center gap-3 border-b border-ink-900/25 pb-2 text-[13px] tracking-[0.14em] text-ink-900 uppercase transition-colors hover:border-flame-500 hover:text-flame-600"
           >
@@ -84,7 +84,7 @@ function SectionHead({
             >
               <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </a>
+          </Link>
         </Reveal>
       )}
     </div>
@@ -162,6 +162,7 @@ export function AboutSection() {
             title="Nội thất làm ra để dùng hai mươi năm,"
             accent="không phải để chụp ảnh"
             lead="MtT Deco bắt đầu từ một xưởng mộc nhỏ ở Dĩ An năm 2013. Đến nay chúng tôi vẫn giữ nguyên cách làm cũ: tự sản xuất, tự lắp đặt, không qua trung gian — nên biết chính xác từng tấm ván trong nhà bạn đến từ đâu."
+            action={{ label: 'Câu chuyện đầy đủ', href: '/gioi-thieu' }}
           />
 
           <div className="mt-10 space-y-5 text-[15px] leading-relaxed text-steel-600">
@@ -338,6 +339,51 @@ export function FeaturedProducts() {
 /* Projects                                                            */
 /* ------------------------------------------------------------------ */
 
+/**
+ * One handed-over project.
+ *
+ * Shared by the home page strip and the projects page so a change to the
+ * caption or the hover treatment happens in one place.
+ */
+export function ProjectCard({
+  project,
+  delay = 0,
+  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
+}: {
+  project: (typeof projects)[number]
+  delay?: number
+  sizes?: string
+}) {
+  return (
+    <Reveal delay={delay} className="group relative overflow-hidden rounded-sm">
+      <div className="relative aspect-4/3">
+        <Image
+          src={project.image}
+          alt={`${project.name} — ${project.scope}`}
+          fill
+          sizes={sizes}
+          className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+        />
+        <span className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/25 to-transparent" />
+      </div>
+      <div className="absolute inset-x-0 bottom-0 p-5">
+        <div className="flex items-center gap-2 text-[11px] tracking-[0.16em] text-white/55 uppercase">
+          <span>{project.year}</span>
+          <span className="h-1 w-1 rounded-full bg-flame-500" />
+          <span>{project.style}</span>
+        </div>
+        <h3 className="mt-2 font-display text-xl text-white">{project.name}</h3>
+        <p className="mt-1 text-[13px] text-white/60">{project.scope}</p>
+      </div>
+      <span className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/30 text-white opacity-0 transition-all duration-400 group-hover:opacity-100">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+          <path d="M7 17L17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+    </Reveal>
+  )
+}
+
 export function ProjectsSection() {
   return (
     <section id="du-an" className="bg-ink-900 py-24 text-white lg:py-32">
@@ -363,11 +409,11 @@ export function ProjectsSection() {
             </Reveal>
           </div>
           <Reveal delay={200} className="shrink-0">
-            <a
-              href="#lien-he"
+            <Link
+              href="/du-an"
               className="group inline-flex items-center gap-3 border-b border-white/25 pb-2 text-[13px] tracking-[0.14em] uppercase transition-colors hover:border-flame-500 hover:text-flame-400"
             >
-              Xem hồ sơ năng lực
+              Xem tất cả dự án
               <svg
                 width="16"
                 height="16"
@@ -379,38 +425,13 @@ export function ProjectsSection() {
               >
                 <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-            </a>
+            </Link>
           </Reveal>
         </div>
 
         <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((p, i) => (
-            <Reveal key={p.name} delay={(i % 3) * 90} className="group relative overflow-hidden rounded-sm">
-              <div className="relative aspect-4/3">
-                <Image
-                  src={p.image}
-                  alt={`${p.name} — ${p.scope}`}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
-                />
-                <span className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/25 to-transparent" />
-              </div>
-              <div className="absolute inset-x-0 bottom-0 p-5">
-                <div className="flex items-center gap-2 text-[11px] tracking-[0.16em] text-white/55 uppercase">
-                  <span>{p.year}</span>
-                  <span className="h-1 w-1 rounded-full bg-flame-500" />
-                  <span>{p.style}</span>
-                </div>
-                <h3 className="mt-2 font-display text-xl text-white">{p.name}</h3>
-                <p className="mt-1 text-[13px] text-white/60">{p.scope}</p>
-              </div>
-              <span className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/30 text-white opacity-0 transition-all duration-400 group-hover:opacity-100">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <path d="M7 17L17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-            </Reveal>
+            <ProjectCard key={p.name} project={p} delay={(i % 3) * 90} />
           ))}
         </div>
       </div>
@@ -422,6 +443,38 @@ export function ProjectsSection() {
 /* Process                                                             */
 /* ------------------------------------------------------------------ */
 
+/** The six steps as a card grid — the home page strip and the process page. */
+export function ProcessGrid({ className = '' }: { className?: string }) {
+  return (
+    <div
+      className={`grid gap-px overflow-hidden rounded-sm bg-ink-900/10 sm:grid-cols-2 lg:grid-cols-3 ${className}`}
+    >
+      {processSteps.map((s, i) => (
+        <Reveal
+          key={s.no}
+          delay={(i % 3) * 90}
+          className="group relative bg-paper p-7 transition-colors duration-500 hover:bg-ink-900"
+        >
+          <div className="flex items-baseline justify-between">
+            <span className="font-display text-5xl leading-none text-ink-900/12 transition-colors duration-500 group-hover:text-flame-500/60">
+              {s.no}
+            </span>
+            <span className="rounded-full border border-ink-900/12 px-3 py-1 text-[11px] tracking-wide text-steel-500 transition-colors duration-500 group-hover:border-white/25 group-hover:text-white/70">
+              {s.time}
+            </span>
+          </div>
+          <h3 className="mt-6 text-lg font-medium text-ink-900 transition-colors duration-500 group-hover:text-white">
+            {s.title}
+          </h3>
+          <p className="mt-3 text-[14px] leading-relaxed text-steel-600 transition-colors duration-500 group-hover:text-white/65">
+            {s.body}
+          </p>
+        </Reveal>
+      ))}
+    </div>
+  )
+}
+
 export function ProcessSection() {
   return (
     <section id="quy-trinh" className="mx-auto max-w-[1600px] px-5 py-24 sm:px-8 lg:py-32">
@@ -430,32 +483,10 @@ export function ProcessSection() {
         title="Sáu bước, tổng cộng"
         accent="35–50 ngày"
         lead="Mốc thời gian dưới đây được ghi thẳng vào hợp đồng. Chậm tiến độ do lỗi của chúng tôi, chúng tôi chịu phạt."
+        action={{ label: 'Chi tiết quy trình', href: '/quy-trinh' }}
       />
 
-      <div className="mt-14 grid gap-px overflow-hidden rounded-sm bg-ink-900/10 sm:grid-cols-2 lg:grid-cols-3">
-        {processSteps.map((s, i) => (
-          <Reveal
-            key={s.no}
-            delay={(i % 3) * 90}
-            className="group relative bg-paper p-7 transition-colors duration-500 hover:bg-ink-900"
-          >
-            <div className="flex items-baseline justify-between">
-              <span className="font-display text-5xl leading-none text-ink-900/12 transition-colors duration-500 group-hover:text-flame-500/60">
-                {s.no}
-              </span>
-              <span className="rounded-full border border-ink-900/12 px-3 py-1 text-[11px] tracking-wide text-steel-500 transition-colors duration-500 group-hover:border-white/25 group-hover:text-white/70">
-                {s.time}
-              </span>
-            </div>
-            <h3 className="mt-6 text-lg font-medium text-ink-900 transition-colors duration-500 group-hover:text-white">
-              {s.title}
-            </h3>
-            <p className="mt-3 text-[14px] leading-relaxed text-steel-600 transition-colors duration-500 group-hover:text-white/65">
-              {s.body}
-            </p>
-          </Reveal>
-        ))}
-      </div>
+      <ProcessGrid className="mt-14" />
     </section>
   )
 }
@@ -509,10 +540,93 @@ export function Testimonials() {
 /* Contact                                                             */
 /* ------------------------------------------------------------------ */
 
-export function ContactSection() {
+/**
+ * The consultation request form.
+ *
+ * Its own component because it appears both in the home page's contact strip
+ * and on the contact page, and a form is the one thing on the site that must
+ * not drift between two copies.
+ */
+export function ContactForm({ delay = 0 }: { delay?: number }) {
   const inputCls =
     'w-full border-b border-ink-900/15 bg-transparent py-3 text-[15px] text-ink-900 outline-none transition-colors placeholder:text-steel-400 focus:border-flame-500'
 
+  return (
+    <Reveal delay={delay} className="rounded-sm border border-ink-900/8 bg-paper-dim/50 p-7 sm:p-10">
+      <form className="grid gap-7 sm:grid-cols-2">
+        <label className="block">
+          <span className="text-[11px] tracking-[0.16em] text-steel-500 uppercase">Họ và tên</span>
+          <input className={inputCls} name="name" placeholder="Nguyễn Văn A" required />
+        </label>
+        <label className="block">
+          <span className="text-[11px] tracking-[0.16em] text-steel-500 uppercase">Số điện thoại</span>
+          <input className={inputCls} name="phone" type="tel" placeholder="0909 000 000" required />
+        </label>
+        <label className="block">
+          <span className="text-[11px] tracking-[0.16em] text-steel-500 uppercase">Loại hình</span>
+          <select className={`${inputCls} appearance-none`} name="type" defaultValue="canho">
+            <option value="canho">Căn hộ</option>
+            <option value="nhapho">Nhà phố</option>
+            <option value="villa">Biệt thự</option>
+            <option value="vanphong">Văn phòng</option>
+            <option value="khac">Khác</option>
+          </select>
+        </label>
+        <label className="block">
+          <span className="text-[11px] tracking-[0.16em] text-steel-500 uppercase">Diện tích (m²)</span>
+          <input className={inputCls} name="area" type="number" min={10} placeholder="78" />
+        </label>
+        <label className="block sm:col-span-2">
+          <span className="text-[11px] tracking-[0.16em] text-steel-500 uppercase">
+            Ngân sách dự kiến
+          </span>
+          <select className={`${inputCls} appearance-none`} name="budget" defaultValue="300-600">
+            <option value="duoi-300">Dưới 300 triệu</option>
+            <option value="300-600">300 – 600 triệu</option>
+            <option value="600-1000">600 triệu – 1 tỷ</option>
+            <option value="tren-1000">Trên 1 tỷ</option>
+          </select>
+        </label>
+        <label className="block sm:col-span-2">
+          <span className="text-[11px] tracking-[0.16em] text-steel-500 uppercase">
+            Mô tả mong muốn
+          </span>
+          <textarea
+            className={`${inputCls} min-h-24 resize-y`}
+            name="message"
+            placeholder="Nhà 2 phòng ngủ, thích tông gỗ sáng, cần nhiều chỗ cất đồ…"
+          />
+        </label>
+
+        <div className="sm:col-span-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="max-w-xs text-[12px] leading-relaxed text-steel-500">
+            Chúng tôi gọi lại trong vòng 4 giờ làm việc. Thông tin của bạn không được chia sẻ
+            cho bên thứ ba.
+          </p>
+          <button
+            type="submit"
+            className="group inline-flex items-center justify-center gap-3 rounded-full bg-flame-500 px-8 py-4 text-[13px] font-medium tracking-[0.12em] text-white uppercase transition-colors hover:bg-flame-600"
+          >
+            Gửi yêu cầu
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+      </form>
+    </Reveal>
+  )
+}
+
+export function ContactSection() {
   return (
     <section id="lien-he" className="mx-auto max-w-[1600px] px-5 py-24 sm:px-8 lg:py-32">
       <div className="grid gap-14 lg:grid-cols-12 lg:gap-20">
@@ -555,77 +669,7 @@ export function ContactSection() {
         </div>
 
         <div className="lg:col-span-7">
-          <Reveal delay={120} className="rounded-sm border border-ink-900/8 bg-paper-dim/50 p-7 sm:p-10">
-            <form className="grid gap-7 sm:grid-cols-2">
-              <label className="block">
-                <span className="text-[11px] tracking-[0.16em] text-steel-500 uppercase">Họ và tên</span>
-                <input className={inputCls} name="name" placeholder="Nguyễn Văn A" required />
-              </label>
-              <label className="block">
-                <span className="text-[11px] tracking-[0.16em] text-steel-500 uppercase">Số điện thoại</span>
-                <input className={inputCls} name="phone" type="tel" placeholder="0909 000 000" required />
-              </label>
-              <label className="block">
-                <span className="text-[11px] tracking-[0.16em] text-steel-500 uppercase">Loại hình</span>
-                <select className={`${inputCls} appearance-none`} name="type" defaultValue="canho">
-                  <option value="canho">Căn hộ</option>
-                  <option value="nhapho">Nhà phố</option>
-                  <option value="villa">Biệt thự</option>
-                  <option value="vanphong">Văn phòng</option>
-                  <option value="khac">Khác</option>
-                </select>
-              </label>
-              <label className="block">
-                <span className="text-[11px] tracking-[0.16em] text-steel-500 uppercase">Diện tích (m²)</span>
-                <input className={inputCls} name="area" type="number" min={10} placeholder="78" />
-              </label>
-              <label className="block sm:col-span-2">
-                <span className="text-[11px] tracking-[0.16em] text-steel-500 uppercase">
-                  Ngân sách dự kiến
-                </span>
-                <select className={`${inputCls} appearance-none`} name="budget" defaultValue="300-600">
-                  <option value="duoi-300">Dưới 300 triệu</option>
-                  <option value="300-600">300 – 600 triệu</option>
-                  <option value="600-1000">600 triệu – 1 tỷ</option>
-                  <option value="tren-1000">Trên 1 tỷ</option>
-                </select>
-              </label>
-              <label className="block sm:col-span-2">
-                <span className="text-[11px] tracking-[0.16em] text-steel-500 uppercase">
-                  Mô tả mong muốn
-                </span>
-                <textarea
-                  className={`${inputCls} min-h-24 resize-y`}
-                  name="message"
-                  placeholder="Nhà 2 phòng ngủ, thích tông gỗ sáng, cần nhiều chỗ cất đồ…"
-                />
-              </label>
-
-              <div className="sm:col-span-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <p className="max-w-xs text-[12px] leading-relaxed text-steel-500">
-                  Chúng tôi gọi lại trong vòng 4 giờ làm việc. Thông tin của bạn không được chia sẻ
-                  cho bên thứ ba.
-                </p>
-                <button
-                  type="submit"
-                  className="group inline-flex items-center justify-center gap-3 rounded-full bg-flame-500 px-8 py-4 text-[13px] font-medium tracking-[0.12em] text-white uppercase transition-colors hover:bg-flame-600"
-                >
-                  Gửi yêu cầu
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    className="transition-transform duration-300 group-hover:translate-x-1"
-                  >
-                    <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-              </div>
-            </form>
-          </Reveal>
+          <ContactForm delay={120} />
         </div>
       </div>
     </section>

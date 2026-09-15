@@ -3,11 +3,11 @@ const px = (id: number, slug: string, w = 1400, ext: 'jpeg' | 'png' = 'jpeg') =>
 
 export const navLinks = [
   { label: 'Sản phẩm', href: '/san-pham' },
-  { label: 'Dự án', href: '/#du-an' },
-  { label: 'Quy trình', href: '/#quy-trinh' },
+  { label: 'Dự án', href: '/du-an' },
+  { label: 'Quy trình', href: '/quy-trinh' },
   { label: 'Blog', href: '/blog' },
-  { label: 'Về MtT Deco', href: '/#gioi-thieu' },
-  { label: 'Liên hệ', href: '/#lien-he' },
+  { label: 'Về MtT Deco', href: '/gioi-thieu' },
+  { label: 'Liên hệ', href: '/lien-he' },
 ]
 
 export const stats = [

@@ -201,7 +201,7 @@ export default async function BlogPostPage({ params }: Params) {
                   </p>
                   <div className="mt-6 flex flex-wrap gap-3">
                     <Link
-                      href="/#lien-he"
+                      href="/lien-he"
                       className="rounded-full bg-flame-500 px-6 py-3 text-[13px] font-medium tracking-wide text-white transition-colors hover:bg-flame-600"
                     >
                       Đặt lịch tư vấn

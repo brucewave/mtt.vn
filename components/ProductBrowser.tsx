@@ -236,7 +236,7 @@ function ProductCard({ item, priority }: { item: CatalogItem; priority: boolean 
           className="text-flame-600 underline decoration-flame-600/30 underline-offset-4 transition-colors hover:decoration-flame-600 lg:hidden"
         />
         <Link
-          href="/#lien-he"
+          href="/lien-he"
           className="text-steel-500 underline decoration-ink-900/15 underline-offset-4 transition-colors hover:text-ink-900"
         >
           Hỏi tư vấn
