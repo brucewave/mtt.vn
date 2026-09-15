@@ -1,0 +1,17 @@
+# The deploy runs on Linux. A CRLF in a shell script there is a syntax error
+# ("bash: $'\r': command not found"), and cPanel parses .cpanel.yml itself, so
+# these must be stored and checked out with LF whatever the author's machine
+# does with core.autocrlf.
+* text=auto eol=lf
+
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+.htaccess text eol=lf
+.cpanel.yml text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.woff2 binary
