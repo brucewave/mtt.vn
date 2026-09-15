@@ -1,0 +1,17 @@
+---
+# cPanel Git Version Control deployment.
+#
+# This is a Next.js site built as a static export, so a deploy is: build, then
+# copy out/ into the document root. No Node process runs in production.
+#
+# Change DEPLOYPATH below if the site is not on the primary domain:
+#   primary domain  ->  $HOME/public_html
+#   addon domain    ->  $HOME/mtt.vn        (or wherever cPanel put its root)
+#   subdomain       ->  $HOME/public_html/shop
+#
+# cPanel refuses to deploy while the checked-out branch has uncommitted
+# changes, so commit everything before pressing Deploy.
+deployment:
+  tasks:
+    - export DEPLOYPATH=$HOME/public_html
+    - /bin/bash scripts/cpanel-deploy.sh "$DEPLOYPATH"

@@ -5,8 +5,36 @@ Trang chủ website nội thất MT House. Next.js 16 (App Router, Turbopack) + 
 ```bash
 npm install
 npm run dev      # http://localhost:3211
-npm run build
+npm run build    # sinh ra out/ — HTML tĩnh
+npm run preview  # http://localhost:3411 — phục vụ out/ đúng như Apache sẽ làm
 ```
+
+## Deploy
+
+Site build ra **HTML tĩnh** (`output: 'export'` trong `next.config.mjs`): mọi route đều prerender, không có route handler / server action / ISR, nên không cần Node chạy ở production — chỉ cần một web server phát file.
+
+### cPanel (Git Version Control)
+
+1. Trong cPanel → **Git™ Version Control**, tạo repo trỏ tới `https://github.com/brucewave/mtt.vn.git`, branch `main`.
+2. Mở `.cpanel.yml` và sửa `DEPLOYPATH` nếu site không nằm ở domain chính:
+   - domain chính → `$HOME/public_html`
+   - addon domain → `$HOME/mtt.vn`
+   - subdomain → `$HOME/public_html/shop`
+3. Bấm **Update from Remote** rồi **Deploy HEAD Commit**.
+
+`.cpanel.yml` gọi `scripts/cpanel-deploy.sh`, script này:
+
+- build trên server nếu có Node (tự `source` virtualenv trong `~/nodevenv` vì cPanel không để npm sẵn trong PATH của shell deploy);
+- nếu server không có Node thì dùng thư mục `out/` đã commit sẵn (bỏ `out/` khỏi `.gitignore` rồi commit);
+- xoá `_next` cũ ở document root (tên file có hash, không xoá thì chất đống) rồi copy `out/` sang, **không** đụng tới `cgi-bin`, `.well-known` hay thứ khác cPanel để ở đó.
+
+`public/.htaccess` đi kèm bản build, lo phần Apache: `/du-an` → `du-an.html`, `ErrorDocument 404`, gzip và cache header.
+
+cPanel từ chối deploy khi branch đang checkout còn thay đổi chưa commit — commit hết trước khi bấm Deploy.
+
+### Vercel / Netlify / bất kỳ static host nào
+
+Import repo, build command `npm run build`, output directory `out`. Đặt biến môi trường `NEXT_PUBLIC_SITE_URL` = domain thật, nếu không canonical và JSON-LD sẽ lấy mặc định `https://mtt.vn`.
 
 ## Trang
 
@@ -67,7 +95,9 @@ Toàn bộ nội dung là **giả lập** (giá, mã SP, thông số, tên khác
 
 ## Ảnh
 
-Tất cả đều là **ảnh thật** lấy từ Pexels (license miễn phí, không cần ghi nguồn), load qua `next/image` với `remotePatterns` cho `images.pexels.com`. Hero request bản 3840px và khai báo `sizes` lớn hơn 100vw vì ảnh sẽ bị phóng tới ~3×.
+Tất cả đều là **ảnh thật** lấy từ Pexels (license miễn phí, không cần ghi nguồn), load qua `next/image`. Hero khai báo `sizes` lớn hơn 100vw vì ảnh sẽ bị phóng tới ~3×.
+
+Bản build tĩnh không có image optimizer của Next đứng sau, nên `lib/image-loader.ts` đổi tham số `w=` trên chính URL Pexels — CDN của Pexels resize giúp, srcset vẫn hoạt động. Nếu không có loader này thì mọi card sẽ nhận ảnh gốc 2400px.
 
 Khi lên production nên tự host lại ảnh (hoặc thay bằng ảnh công trình thật của MT House) thay vì hotlink Pexels.
 

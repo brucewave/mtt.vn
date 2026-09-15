@@ -1,0 +1,47 @@
+# Apache config for the static export.
+#
+# `next build` emits one file per route — /du-an becomes du-an.html — so the
+# server has to find the .html itself; without these rules every page but the
+# home page is a 404 on cPanel.
+
+Options -MultiViews
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # A request for /du-an serves du-an.html, and the address bar keeps /du-an.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}\.html -f
+  RewriteRule ^(.+?)/?$ $1.html [L]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+# Hashed filenames, so they can be cached until the heat death of the universe.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  <FilesMatch "\.(js|css|woff2)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(png|jpe?g|webp|avif|svg|ico)$">
+    ExpiresDefault "access plus 30 days"
+  </FilesMatch>
+  # The HTML is what changes on every deploy; it must not be held.
+  <FilesMatch "\.html$">
+    ExpiresDefault "access plus 0 seconds"
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Vietnamese text in the HTML and in the RSC payloads is UTF-8.
+AddDefaultCharset UTF-8
+AddType text/plain .txt

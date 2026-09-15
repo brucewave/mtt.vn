@@ -10,6 +10,13 @@ import { sortedPosts } from '@/lib/blog'
  * The quote builder (`/baogia`), the cart and the checkout are left out
  * deliberately — they are tools for one visitor, not pages with an audience.
  */
+/**
+ * A static export emits this as a plain file at build time rather than
+ * answering a request for it, which is exactly what we want here — the
+ * contents never depend on who is asking.
+ */
+export const dynamic = 'force-static'
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
 
